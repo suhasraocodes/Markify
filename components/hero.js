@@ -4,11 +4,10 @@ import ColourfulText from "@/components/ui/colourfull-text";
 import { motion } from "motion/react";
 import { Button } from "./ui/MovingBorder";
 import { useRouter } from "next/navigation";
+
 export function Hero() {
   const router = useRouter();
-  const handleSubmit = () => {
-    router.push("/edit");
-  };
+
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-black">
       {/* Background Image */}
@@ -25,13 +24,27 @@ export function Hero() {
         Effortlessly <ColourfulText text="generate" /> and <br />
         customize markdown for your projects.
       </h1>
-      <div className="mt-5">
+
+      {/* Buttons */}
+      <div className="mt-5 flex gap-4">
         <Button
-          onClick={handleSubmit}
+          onClick={() => router.push("/edit")}
           borderRadius="1.75rem"
-          className="bg-white  dark:bg-white text-black dark:text-black border-slate-800 hover:bg-purple-500"
+          className="bg-white text-black dark:bg-white dark:text-black border-slate-800 hover:bg-purple-500"
         >
-          Try Now
+          Try Editor
+        </Button>
+        <Button
+          onClick={() => {
+            const element = document.getElementById("ai-generator");
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          borderRadius="1.75rem"
+          className="bg-white text-black dark:bg-white dark:text-black border-slate-800 hover:bg-blue-500"
+        >
+          Use AI
         </Button>
       </div>
     </div>

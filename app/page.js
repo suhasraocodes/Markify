@@ -6,6 +6,8 @@ import { MacbookScrollDemo } from "@/components/HomeScroll";
 import { Button } from "@/components/ui/MovingBorder";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress"; // Import Progress
+import { WavyBackground } from "@/components/ui/Waves";
+import { Spinner } from "@/components/ui/Spinner"; // Import Spinner component
 
 export default function Generate() {
   const [customInput, setCustomInput] = useState("");
@@ -78,41 +80,42 @@ export default function Generate() {
       </div>
       <Hero />
       <MacbookScrollDemo />
-      <div className="flex flex-col items-center justify-center p-4 gap-20">
-        <h1 className="text-4xl font-semibold">
-          Tell AI what you just Cooked up and let it do the rest 🚀
-        </h1>
-        <Textarea
-          className="h-64 border-2 border-gray-300 dark:border-slate-700 rounded-lg p-4 text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-black dark:text-white"
-          placeholder="Type your content here..."
-          value={customInput}
-          onChange={(e) => setCustomInput(e.target.value)}
-        />
-        {/* Show progress while generating */}
-        {progress > 0 && progress < 100 && (
-          <div className="mt-4 w-1/2">
-            <Progress value={progress} />
+      <WavyBackground id="ai-generator" className="max-w-4xl mx-auto pb-2 pt-6">
+        <div className="flex flex-col items-center justify-center p-4 gap-20">
+          <h1 className="text-4xl font-semibold">
+            Tell AI what you just Cooked up and let it do the rest 🚀
+          </h1>
+          <Textarea
+            className="h-64 border-2 border-gray-300 dark:border-slate-700 rounded-lg p-4 text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-black dark:text-white"
+            placeholder="Type your content here..."
+            value={customInput}
+            onChange={(e) => setCustomInput(e.target.value)}
+          />
+          {/* Show loading spinner while submitting */}
+          {isSubmitting && (
+            <div className="mt-4">
+              <Spinner />
+            </div>
+          )}
+          <div>
+            <Button
+              onClick={handleSubmit}
+              borderRadius="1.75rem"
+              className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800 hover:bg-slate-200"
+              disabled={isSubmitting} // Disable button during submission
+            >
+              Submit Prompt
+            </Button>
+            <Button
+              onClick={handleSend}
+              borderRadius="1.75rem"
+              className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
+            >
+              Try out the editor
+            </Button>
           </div>
-        )}
-        <div>
-          <Button
-            onClick={handleSubmit}
-            borderRadius="1.75rem"
-            className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800 hover:bg-slate-200"
-            disabled={isSubmitting} // Disable button during submission
-          >
-            Submit Prompt
-          </Button>
-          <Button
-            onClick={handleSend}
-            borderRadius="1.75rem"
-            className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
-          >
-            Try out the editor
-          </Button>
         </div>
-      </div>
-
+      </WavyBackground>
       {/* Footer */}
       <footer className="w-full bg-black text-white py-6 flex justify-center items-center">
         <p className="text-sm">

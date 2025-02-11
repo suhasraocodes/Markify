@@ -27,16 +27,16 @@ function EditPageContent() {
     if (markdownParam) {
       setMarkdown(decodeURIComponent(markdownParam));
     } else {
-      setMarkdown(`# Welcome to Markdown Editor  🚀  
+      setMarkdown(`# Welcome to Markdown Editor  🚀 \n
         
-      This is a markdown editor where you can write and preview markdown in real-time.
+This is a markdown editor where you can write and preview markdown in real-time.\n
       
-      ## Features
-      - Real-time Markdown Preview
-      - Copy Markdown to Clipboard
-      - Download Markdown as a File
-      - Insert Markdown Snippets
-      - Markdown Syntax Highlighting
+## Features\n
+- Real-time Markdown Preview\n
+- Copy Markdown to Clipboard\n
+- Download Markdown as a File\n
+- Insert Markdown Snippets\n
+- Markdown Syntax Highlighting
       \n>[!WARNING]\n>Use at your own risk! LOL, just kidding. Have fun!
       \n>[!NOTE]\n>Use the Insert Markdown dropdown to insert markdown snippets.`);
     }
@@ -49,13 +49,19 @@ function EditPageContent() {
 
   const insertMarkdownAtCursor = (markdownSnippet) => {
     const textarea = textareaRef.current;
-    const cursorPos = textarea.selectionStart;
-    const newMarkdown =
-      markdown.substring(0, cursorPos) +
-      markdownSnippet +
-      markdown.substring(cursorPos);
 
-    setMarkdown(newMarkdown);
+    if (textarea && document.activeElement === textarea) {
+      // Insert at cursor position if editor is focused
+      const cursorPos = textarea.selectionStart;
+      const newMarkdown =
+        markdown.substring(0, cursorPos) +
+        markdownSnippet +
+        markdown.substring(cursorPos);
+      setMarkdown(newMarkdown);
+    } else {
+      // Append at the end if editor is not focused
+      setMarkdown((prev) => prev + "\n" + markdownSnippet);
+    }
   };
 
   useEffect(() => {
